@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import Header from "./components/Header";
 import UserInput from "./components/UserInput";
+import Result from "./components/Result";
 
 const ARGUMENTS = {
   initialInvestment: 15000,
@@ -13,11 +14,13 @@ const ARGUMENTS = {
 function App() {
   const [userInput, setUserInput] = useState(ARGUMENTS);
 
+  const inputIsValid = userInput.duration >= 1;
+
   const handleInputValue = (inputIdentifier, newValue) => {
     setUserInput((prevUserInput) => {
       return {
         ...prevUserInput,
-        [inputIdentifier]: newValue,
+        [inputIdentifier]: +newValue,
       };
     });
   };
@@ -63,6 +66,10 @@ function App() {
             </p>
           </div>
         </section>
+        {!inputIsValid && (
+          <p className="center">Please enter a duration greater than zero.</p>
+        )}
+        {inputIsValid && <Result userInput={userInput} />}
       </main>
     </>
   );
